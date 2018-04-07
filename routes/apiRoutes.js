@@ -4,5 +4,7 @@ var productController = require("../controllers/productController");
 // localhost/products/
 router.get("/:id", productController.find);
 router.post("/new", productController.create);
+router.get("/", productController.findAll);
+router.post("/delete/:id", productController.delete);
 
 module.exports = router;

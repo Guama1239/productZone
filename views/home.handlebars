@@ -1,3 +1,41 @@
 <div>
-    HEY, DIRTY, BABY I GOT YA MONEY...I SAID HEY!
+    <div class="loading">Loading</div>
+    <h1>Add Product</h1>
+    <input type="text" class="product-name" placeholder="Enter Product Name" />
+    <input type="number" class="product-price" placeholder="Enter Product Price"/>
+    <button class="submit-btn">Add Product</button>
+    <h1>Product List</h1>
+    <ul class="product-list"></ul>
 </div>
+<script>
+    $(document).ready(() => {
+        $(".loading").hide();
+
+        const init = () => {
+            $.ajax({
+                method: "GET",
+                url: "/api/products"
+            }).then((data) => {
+                const html = data.map(product => `<li>${product.name} - ${product.price} <a href="/api/products/delete/${product._id}">🗑</a></li>`).join("");
+                $(".product-list").append(html);
+            });
+        };
+
+        init();
+
+        $(".submit-btn").on("click", ()=> {
+            $(".loading").show();
+            const name = $(".product-name").val().trim();
+            const price = $(".product-price").val().trim();
+            $.ajax({
+                method: "POST",
+                url: "/api/products/new",
+                data: {name, price}
+            }).then((data)=> {
+                $(".loading").hide();
+                const html = `<li>${data.name} - ${data.price} 🗑</li>`;
+                $(".product-list").append(html);
+            });
+        });
+    });
+</script>

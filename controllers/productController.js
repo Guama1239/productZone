@@ -6,10 +6,17 @@ module.exports = {
             res.json(dbProduct);
         });
     },
+    findAll: (req, res)=> {
+        db.Product.find({}).then((dbProducts)=> res.json(dbProducts));
+    },
     create: function (req, res) {
         // req.body => {name: "name", price: 1.50}
         db.Product.create(req.body).then(function (dbProduct) {
             res.json(dbProduct);
         });
+    },
+    delete: (req, res)=> {
+        const id = req.params.id;
+        db.Product.deleteOne({id}).then((dbProduct)=> res.redirect("/"))
     }
 }
