@@ -16,7 +16,9 @@ module.exports = {
         });
     },
     delete: (req, res)=> {
-        const id = req.params.id;
-        db.Product.deleteOne({id}).then((dbProduct)=> res.redirect("/"))
+        const _id = req.params.id;
+        db.Product
+          .deleteOne({_id})
+          .then((dbProduct)=> res.json(dbProduct));
     }
 }
